@@ -505,7 +505,7 @@ class BaseSprite(pygame.sprite.Sprite):
 class StaticImage(BaseSprite):
     draw_layer = DRAW_LAYER.VFX
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Necessary assignment
            - rect
@@ -519,7 +519,7 @@ class StaticImage(BaseSprite):
 
         self.damping = 0
         self.step_time = 1
-        super().__init__()
+        super().__init__(*args, **kwargs)
         self.play_sound('creation')
 
     def end_step(self):
@@ -533,7 +533,7 @@ class PhysObject(BaseSprite):
     """
     damping = None
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Necessary assignment
            - rect
@@ -544,7 +544,7 @@ class PhysObject(BaseSprite):
         self._body = None
         self._shape = None
 
-        super().__init__()
+        super().__init__(*args, **kwargs)
 
     def _get_space(self):
         """
@@ -833,8 +833,8 @@ class ImageHandler(PhysObject):
     _frames = []
     IMAGE_SHIFT = Vec2d(0, 0)
 
-    def __init__(self, obj=None):
-        super().__init__()
+    def __init__(self, *args, obj=None, **kwargs):
+        super().__init__(*args, **kwargs)
         if obj is None:
             self._image = GObject(self._frames)
         else:
@@ -863,8 +863,8 @@ class DynamicObject(ImageHandler):
     max_health = 100
     death_effect = None
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.health = self.max_health
 
     def _get_shape(self):
@@ -904,8 +904,8 @@ class BaseProjectile(DynamicObject):
     lifetime = 1000
     hit_damage = 10
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.life_left = self.lifetime
         self.parent = None
         self.timeout = False
@@ -1054,8 +1054,8 @@ class BaseCreature(DynamicObject):
     role = ROLE.CREATURE
     max_health = 100
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self.mounts_num = 0
         self.mounts = []
@@ -1194,8 +1194,8 @@ class BaseComponent(DynamicObject):
     role = ROLE.COMPONENT
     max_health = 50
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self._pos = Vec2d(0, 0)
         self._ang = 0
@@ -1403,8 +1403,8 @@ class BaseWeapon(BaseComponent):
     inaccuracy = .02
     Projectile = None
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.recharge = 0
 
     def end_step(self):

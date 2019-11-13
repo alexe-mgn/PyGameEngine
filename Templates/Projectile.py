@@ -14,8 +14,8 @@ class Projectile(BaseProjectile):
     lifetime = 1000
     damage = 10
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self.body = pymunk.Body()
         self.shape = pymunk.Poly(self.body, self.RADIUS)

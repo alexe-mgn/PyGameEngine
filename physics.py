@@ -562,8 +562,8 @@ class StaticImage(BaseSprite):
     _frames = []
     IMAGE_SHIFT = Vec2d(0, 0)
 
-    def __init__(self, obj=None):
-        super().__init__()
+    def __init__(self, *args, obj=None, **kwargs):
+        super().__init__(*args, **kwargs)
         if obj is None:
             self._image = GObject(self._frames)
         else:
@@ -599,14 +599,14 @@ class PhysObject(BaseSprite):
     github.com/alexe-mgn/pygame/Weapons/net_cannon.py
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Necessary assignment
            - rect
            - image
            - shape
         """
-        super().__init__()
+        super().__init__(*args, **kwargs)
         self._body = None
         self._shape = None
 
@@ -899,8 +899,8 @@ class ImageHandler(PhysObject):
     _frames = []
     IMAGE_SHIFT = Vec2d(0, 0)
 
-    def __init__(self, obj=None):
-        super().__init__()
+    def __init__(self, *args, obj=None, **kwargs):
+        super().__init__(*args, **kwargs)
         if obj is None:
             self._image = GObject(self._frames)
         else:
@@ -929,8 +929,8 @@ class DynamicObject(ImageHandler):
     max_health = 100
     death_effect = None
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.health = self.max_health
 
     def _set_shape(self, shape):
@@ -967,8 +967,8 @@ class BaseProjectile(DynamicObject):
     lifetime = 1000
     hit_damage = 10
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.life_left = self.lifetime
         self.parent = None
         self.timeout = False
@@ -1116,8 +1116,8 @@ class BaseMounter(DynamicObject):
     draw_layer = DRAW_LAYER.CREATURE
     role = ROLE.CREATURE
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self.mounts_num = 0
         self.mounts = []
@@ -1260,8 +1260,8 @@ class BaseComponent(DynamicObject):
     role = ROLE.COMPONENT
     max_health = 50
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self._pos = Vec2d(0, 0)
         self._ang = 0
@@ -1488,8 +1488,8 @@ class BaseWeapon(BaseComponent):
     inaccuracy = .02
     Projectile = None
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.recharge = 0
 
     def end_step(self):

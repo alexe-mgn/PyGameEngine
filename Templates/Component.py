@@ -13,8 +13,8 @@ class Component(YTGBaseComponent):
     size_inc = 1
     max_health = 50
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self.i_body = self.body
         self.shape = pymunk.Poly(self.body, self.POLY_SHAPE)

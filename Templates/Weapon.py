@@ -16,8 +16,8 @@ class Weapon(YTGBaseWeapon):
     fire_delay = 1000
     fire_pos = Vec2d(0, 0)
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self.i_body = pymunk.Body()
         self.shape = pymunk.Poly(self.body, self.POLY_SHAPE)

@@ -1,5 +1,14 @@
 from Engine.engine_config import *
-from game_config import *
+try:
+    from game_config import *
+except ImportError:
+    import os
+    if os.path.isfile("../game_config.py"):
+        import traceback
+        traceback.print_exc()
+        print("Error occurred when overriding engine config values.")
+    else:
+        print("game_config not found. Engine default configuration is not being overridden")
 # import os
 #
 # if os.path.isfile(CONFIG_OVERRIDE_ABSOLUTE):

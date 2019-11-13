@@ -102,6 +102,9 @@ class Main:
         return self._gui
 
     def set_gui(self, gui):
+        """
+        :param gui: subclass(Engine.interface.Division)
+        """
         self._gui = gui
         if gui is not None:
             gui.main = self

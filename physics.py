@@ -1243,7 +1243,23 @@ class BaseMounter(DynamicObject):
 
 
 class BaseCreature(BaseMounter):
-    max_health = 100
+    max_vel = 100
+    walk_force = 10000000
+
+    def walk(self, vec):
+        cv = self.velocity
+        if any(vec):
+            tv = Vec2d(vec)
+            tv.length = self.max_vel
+            dif = tv - cv
+            dif.length = self.walk_force
+            self._body.force += dif
+        elif abs(cv[0]) > .01 and abs(cv[1] > .01):
+            # stopping
+            cv.length = self.walk_force
+            self._body.force -= cv
+        else:
+            self.velocity = (0, 0)
 
     def kill(self):
         self.unmount_all()
@@ -1258,7 +1274,6 @@ class BaseComponent(DynamicObject):
     """
     draw_layer = DRAW_LAYER.COMPONENT
     role = ROLE.COMPONENT
-    max_health = 50
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -38,41 +38,41 @@ class Camera:
         self.rect.center = center
         self.rect.clamp_ip(self._constraint)
 
-        self.c_rect = FRect(self.rect)
+        self._c_rect = FRect(self.rect)
         self.zoom = 1
 
     def update(self, upd_time):
-        tc, cc = self.rect.center, self.c_rect.center
-        ts, cs = self.rect.size, self.c_rect.size
+        tc, cc = self.rect.center, self._c_rect.center
+        ts, cs = self.rect.size, self._c_rect.size
         # print(cs, self.zoom, self.zoom_offset, self.zoom / self.zoom_offset)
         dis_x, dis_y = tc[0] - cc[0], tc[1] - cc[1]
         ds_x, ds_y = ts[0] - cs[0], ts[1] - cs[1]
 
         if abs(ds_x) < .5:
-            self.c_rect.w = ts[0]
+            self._c_rect.w = ts[0]
         else:
-            self.c_rect.w += ds_x * self.zoom_speed * upd_time / 1000
+            self._c_rect.w += ds_x * self.zoom_speed * upd_time / 1000
         if abs(ds_y) < .5:
-            self.c_rect.h = ts[1]
+            self._c_rect.h = ts[1]
         else:
-            self.c_rect.h += ds_y * self.zoom_speed * upd_time / 1000
+            self._c_rect.h += ds_y * self.zoom_speed * upd_time / 1000
 
         if abs(dis_x) < .5:
-            self.c_rect.centerx = tc[0]
+            self._c_rect.centerx = tc[0]
         else:
-            self.c_rect.centerx = cc[0] + dis_x * self.move_speed * upd_time / 1000
+            self._c_rect.centerx = cc[0] + dis_x * self.move_speed * upd_time / 1000
         if abs(dis_y) < .5:
-            self.c_rect.centery = tc[1]
+            self._c_rect.centery = tc[1]
         else:
-            self.c_rect.centery = cc[1] + dis_y * self.move_speed * upd_time / 1000
-        self.c_rect.clamp_ip(self._constraint)
+            self._c_rect.centery = cc[1] + dis_y * self.move_speed * upd_time / 1000
+        self._c_rect.clamp_ip(self._constraint)
 
     def get_rect(self):
         """
         Прямоугольник в системе координат уровня, который камера освещает на данный момент..
         :return: Rect()
         """
-        return self.c_rect
+        return self._c_rect
         # rect = pygame.Rect(0, 0, 0, 0)
         # rect.center = self.c_rect.center
         # rect.inflate_ip(self.c_rect.width // 2 * 2, self.c_rect.height // 2 * 2)
@@ -93,8 +93,8 @@ class Camera:
         :param coef: (x (%), y (%))
         :return:
         """
-        self.rect.x += self.c_rect.width * coef[0] / 100
-        self.rect.y += self.c_rect.height * coef[1] / 100
+        self.rect.x += self._c_rect.width * coef[0] / 100
+        self.rect.y += self._c_rect.height * coef[1] / 100
         self.rect.clamp_ip(self._constraint)
 
     def get_zoom(self):
@@ -138,7 +138,7 @@ class Camera:
         Масштабирование камеры в данный момент.
         :return: int
         """
-        return self.i_size[0] / self.c_rect.width
+        return self.i_size[0] / self._c_rect.width
 
     def get_center(self):
         """
@@ -179,16 +179,16 @@ class Camera:
     size = property(get_size, set_size)
 
     def instant_move(self):
-        self.c_rect.center = self.rect.center
+        self._c_rect.center = self.rect.center
 
     def instant_zoom(self):
-        self.c_rect.size = self.rect.size
+        self._c_rect.size = self.rect.size
 
     def instant_target(self):
         """
         Мнгновенно установить камеру в целевую позицию
         """
-        self.c_rect = self.rect.copy()
+        self._c_rect = self.rect.copy()
 
     def world_to_local(self, pos):
         rect = self.get_rect()

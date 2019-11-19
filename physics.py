@@ -679,6 +679,7 @@ class PhysObject(BaseSprite):
         return self._get_body().mass
 
     def _set_mass(self, mass):
+        raise AssertionError("В методе обнаруженна критическая уязвимость. Используйте методы объектов shape тела.")
         self._get_body().mass = mass
 
     def _get_moment(self):
@@ -1254,11 +1255,12 @@ class BaseCreature(BaseMounter):
             dif = tv - cv
             dif.length = self.walk_force
             self._body.force += dif
-        elif abs(cv[0]) > .01 and abs(cv[1] > .01):
-            # stopping
+        elif abs(cv[0]) > .01 and abs(cv[1]) > .01:
+            # На входе (0, 0) вектор. Замедляемся.
             cv.length = self.walk_force
             self._body.force -= cv
         else:
+            # Скорость пренебрежимо мала
             self.velocity = (0, 0)
 
     def kill(self):

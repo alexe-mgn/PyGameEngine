@@ -1253,9 +1253,10 @@ class BaseCreature(BaseMounter):
             tv = Vec2d(vec)
             tv.length = self.max_vel
             dif = tv - cv
-            dif.length = self.walk_force
-            self._body.force += dif
-        elif abs(cv[0]) > .01 and abs(cv[1]) > .01:
+            if any(dif):
+                dif.length = self.walk_force
+                self._body.force += dif
+        elif abs(cv[0]) > .01 or abs(cv[1]) > .01:
             # На входе (0, 0) вектор. Замедляемся.
             cv.length = self.walk_force
             self._body.force -= cv

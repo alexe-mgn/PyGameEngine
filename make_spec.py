@@ -2,12 +2,12 @@ import re
 import os
 
 
-def makespec(f):
+def makespec(f, args):
     os.chdir("..")
     if os.path.isfile(f):
         spec = re.sub(r"(.+)\.\w{1,5}", r"\1.spec", f)
         if not os.path.isfile(spec):
-            os.system(f"pyi-makespec {f}")
+            os.system(f"pyi-makespec {f} {args}")
             if os.path.exists("make_data.py"):
                 md = "make_data.py"
             else:
@@ -35,4 +35,4 @@ def makespec(f):
 
 
 if __name__ == '__main__':
-    makespec(input("File name:"))
+    makespec(input("File name:"), input("args: "))

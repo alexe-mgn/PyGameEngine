@@ -3,6 +3,7 @@ import sys
 import traceback
 import time
 from Engine.utils import *
+import pygame
 
 """App settings"""
 
@@ -68,14 +69,14 @@ def debug_print(v):
 
 """Events"""
 
-MOUSE_EVENTS = (5, 6)
-KEY_EVENTS = (2, 3)
-CONTROL_EVENTS = (2, 3, 5, 6)
+MOUSE_EVENTS = (pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP)
+KEY_EVENTS = (pygame.KEYDOWN, pygame.KEYUP)
+CONTROL_EVENTS = (pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP, pygame.KEYDOWN, pygame.KEYUP)
 
 
 class EVENT(NameSpace):
-    FPS_COUNTER = 29
-    EVENT_SYSTEM = 30
+    FPS_COUNTER = pygame.USEREVENT + 29
+    EVENT_SYSTEM = pygame.USEREVENT + 30
 
 
 class EVENT_TIMER(NameSpace):
